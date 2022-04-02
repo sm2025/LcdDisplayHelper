@@ -37,6 +37,4 @@ if __name__ == "__main__":
     displayTemperature =displayObjects.append(dh.DisplayObject(str(temperature), "mediumpurple", 150, (0,20)))
 
     displayHelper.completeDisplay(displayObjects)
-
-    color = "MEDIUMPURPLE" if temperature<= 50 else "GREY" if temperature<=70 else "RED"
     
