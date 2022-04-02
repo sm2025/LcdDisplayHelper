@@ -17,7 +17,7 @@ from PIL import Image,ImageDraw,ImageFont
 import textwrap; 
 
 
-class displayHelper():
+class DisplayHelper():
     # Raspberry Pi pin configuration:
     # RST = 27
     # DC = 25
@@ -37,6 +37,17 @@ class displayHelper():
         self.disp.clear()
         self.image, self.draw = self.__newImage()
         
+    def completeDisplay(self, listOfDisplayProperties):
+        for displayProperty in listOfDisplayProperties:
+            self.__displayEachText(displayProperty)
+        self.__outputDisplay()
+
+    def displayBigText(self,inputStr, color, breakLongWords = True):
+        self.__displayText(inputStr, color,90, 7, 3, breakLongWords = breakLongWords)
+
+    def displayImage(self):
+        self.image = Image.open('./pic/LCD_2inch.jpg')	
+        self.__outputDisplay(); 
 
     def __newImage(self):
         # Create blank image for drawing.
@@ -44,21 +55,7 @@ class displayHelper():
         draw = ImageDraw.Draw(image)
         return image, draw
 
-    # def displayImage(disp):
-    #     image = Image.open('./pic/LCD_2inch.jpg')	
-    #     image = image.rotate(180)
-    #     disp.ShowImage(image)
-
-
-    def completeDisplay(self, listOfDisplayProperties):
-        for displayProperty in listOfDisplayProperties:
-            self.displayText(displayProperty)
-        self.__outputDisplay()
-
-    def displayBigText(self,inputStr, color, breakLongWords = True):
-        self.__displayText(inputStr, color,90, 7, 3, breakLongWords = breakLongWords)
-
-    def displayText(self,DisplayProperties):
+    def __displayEachText(self,DisplayProperties):
         self.__displayText(DisplayProperties.text, DisplayProperties.color, DisplayProperties.size, 0, 1, startPosition=DisplayProperties.startPosition)
 
     def __displayText(self, inputStr, color, size, eachLineLen, numOfLines,startPosition = (0,0), breakLongWords = True):
