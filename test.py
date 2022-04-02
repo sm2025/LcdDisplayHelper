@@ -1,5 +1,4 @@
 import displayHelper as dh;
-import time; 
 
 displayH = dh.DisplayHelper()
 dis1 = dh.DisplayObject("saroj", "red", 100)
