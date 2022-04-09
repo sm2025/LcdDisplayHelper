@@ -27,7 +27,7 @@ class DisplayHelper():
     logging.basicConfig(level=logging.DEBUG)
     
     def __init__(self) -> None:
-          # display with hardware SPI:
+         # display with hardware SPI:
         ''' Warning!!!Don't  creation of multiple displayer objects!!! '''
         #disp = LCD_2inch.LCD_2inch(spi=SPI.SpiDev(bus, device),spi_freq=10000000,rst=RST,dc=DC,bl=BL)
         self.disp = LCD_2inch.LCD_2inch()
@@ -36,14 +36,22 @@ class DisplayHelper():
         # Clear display.
         self.disp.clear()
         self.image, self.draw = self.__newImage()
-        
+
+    def exitDisplay(self):
+        self.disp.module_exit()
+
     def completeDisplay(self, listOfDisplayProperties):
         for displayProperty in listOfDisplayProperties:
             self.__displayEachText(displayProperty)
         self.__outputDisplay()
 
     def displayBigText(self,inputStr, color, breakLongWords = True):
-        self.__displayText(inputStr, color,90, 7, 3, breakLongWords = breakLongWords)
+        self.__displayText(inputStr, color,90, 7, breakLongWords = breakLongWords)
+        self.__outputDisplay()
+
+    def displaySmallText(self, inputStr, color, breakLongWords = True):
+        self.__displayText(inputStr, color, 30, 21, breakLongWords = breakLongWords)
+        self.__outputDisplay()
 
     def displayImage(self):
         self.image = Image.open('./pic/LCD_2inch.jpg')	
@@ -56,13 +64,14 @@ class DisplayHelper():
         return image, draw
 
     def __displayEachText(self,DisplayProperties):
-        self.__displayText(DisplayProperties.text, DisplayProperties.color, DisplayProperties.size, 0, 1, startPosition=DisplayProperties.startPosition)
+        self.__displayText(DisplayProperties.text, DisplayProperties.color, DisplayProperties.size, -1, startPosition=DisplayProperties.startPosition)
 
-    def __displayText(self, inputStr, color, size, eachLineLen, numOfLines,startPosition = (0,0), breakLongWords = True):
+    def __displayText(self, inputStr, color, size, eachLineLen,startPosition = (0,0), breakLongWords = True):
         startPosition = self.__positionPercentToPixel(startPosition)
         font3 = ImageFont.truetype("./Font/Capsmall.ttf",size)
-        wrappedText = textwrap.wrap(inputStr, eachLineLen, break_long_words=breakLongWords ) if numOfLines > 1 else [inputStr]
-        eachLineHeight = (240 - startPosition[1])/numOfLines
+        numofLines = len(inputStr)/eachLineLen if eachLineLen >0 else 1
+        wrappedText = textwrap.wrap(inputStr, eachLineLen, break_long_words=breakLongWords ) if numofLines > 1 else [inputStr]
+        eachLineHeight = (240 - startPosition[1])/numofLines
         for text in wrappedText:
             self.draw.text(startPosition, text , fill = color,font=font3)
             listPosition = list(startPosition)
@@ -73,13 +82,13 @@ class DisplayHelper():
         try:
             self.image=self.image.rotate(180)
             self.disp.ShowImage(self.image)
-            self.disp.module_exit()
-            logging.info("quit:")
+            # self.disp.module_exit()
+            logging.info("Display Executed")
         except IOError as e:
             logging.info(e)    
         except KeyboardInterrupt:
             self.disp.module_exit()
-            logging.info("quit:")
+            logging.info("quit")
             exit()
 
     def __positionPercentToPixel(self,position):

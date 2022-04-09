@@ -2,6 +2,7 @@
 import python_weather
 import asyncio
 from datetime import datetime
+import time
 import sys
 # sys.path.append(".")
 import displayHelper as dh
@@ -29,12 +30,15 @@ if __name__ == "__main__":
     temperature = resultWeather.temperature
     forecast = resultWeather.sky_text
     wind = resultWeather.wind_speed
+    humidity = resultWeather.humidity
+    
 
     displayObjects = []
     displayForecast = displayObjects.append(dh.DisplayObject(forecast, "yellow", 50, (0,0)))
-    displayTime = displayObjects.append(dh.DisplayObject(current_hr, "yellow", 100, (60,20)))
-    displayTime = displayObjects.append(dh.DisplayObject(current_min, "yellow", 100, (60,60)))
+    displayTime = displayObjects.append(dh.DisplayObject(str(wind), "yellow", 100, (60,20)))
+    displayTime = displayObjects.append(dh.DisplayObject(str(humidity), "yellow", 100, (60,60)))
     displayTemperature =displayObjects.append(dh.DisplayObject(str(temperature), "mediumpurple", 150, (0,20)))
 
     displayHelper.completeDisplay(displayObjects)
+    displayHelper.exitDisplay(); 
     
