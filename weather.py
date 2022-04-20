@@ -34,11 +34,14 @@ if __name__ == "__main__":
     
 
     displayObjects = []
-    displayForecast = displayObjects.append(dh.DisplayObject(forecast, "yellow", 50, (0,0)))
+    displayForecast = displayObjects.append(dh.DisplayObject(forecast, "white", 50, (0,0)))
     displayTime = displayObjects.append(dh.DisplayObject(str(wind), "yellow", 100, (60,20)))
     displayTime = displayObjects.append(dh.DisplayObject(str(humidity), "yellow", 100, (60,60)))
-    displayTemperature =displayObjects.append(dh.DisplayObject(str(temperature), "mediumpurple", 150, (0,20)))
+    displayTemperature =displayObjects.append(dh.DisplayObject(str(temperature), "white", 150, (0,20)))
 
     displayHelper.completeDisplay(displayObjects)
-    displayHelper.exitDisplay(); 
+    
+    #time.sleep(5)
+    #displayHelper.displayImage()
+    displayHelper.exitDisplay() 
     
