@@ -59,14 +59,17 @@ def sendPictureToDisplay():
         newWidth = int(240/height*width)
     newsize = (newWidth, newHeight)
     img = img.resize(newsize)
-    displayHelper.displayImage(img)
+    #print("******"+ str(newsize[0]) + "****" + str(newsize[1]))
+    reducedImagePath = "/media/saroj/SMTEST/python/test2.jpg"
+    img.save(reducedImagePath)
+    displayHelper.displayImage()
 
 if __name__ == "__main__":
-    for i in range(6):
-        sendWeatherToDisplay(displayHelper)
-        time.sleep(5)  
+    for i in range(1):
+        #sendWeatherToDisplay(displayHelper)
+        #time.sleep(5)  
         sendPictureToDisplay()
-        time.sleep(5)
+        #time.sleep(5)
    
     displayHelper.exitDisplay() 
     

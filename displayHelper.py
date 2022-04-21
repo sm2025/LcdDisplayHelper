@@ -53,9 +53,11 @@ class DisplayHelper():
         self.__displayText(inputStr, color, 30, 21, breakLongWords = breakLongWords)
         self.__outputDisplay()
 
-    def displayImage(self, image):
-        self.image = image	
-        self.__outputDisplay(); 
+    def displayImage(self, imagePath = "/media/saroj/SMTEST/python/test2.jpg"):
+    	#self.image, self.draw = self.__newImage()
+    	#time.sleep(2)
+    	self.image = Image.open(imagePath)
+    	self.__outputDisplay(); 
 
     def __newImage(self):
         # Create blank image for drawing.
@@ -80,7 +82,7 @@ class DisplayHelper():
 
     def __outputDisplay(self):
         try:
-            self.image.save("/media/saroj/SMTEST/python/test.png")
+            #self.image.save("/media/saroj/SMTEST/python/test.png")
             self.image=self.image.rotate(180)
             self.disp.ShowImage(self.image)
             # self.disp.module_exit()
