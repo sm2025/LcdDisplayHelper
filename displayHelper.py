@@ -53,8 +53,8 @@ class DisplayHelper():
         self.__displayText(inputStr, color, 30, 21, breakLongWords = breakLongWords)
         self.__outputDisplay()
 
-    def displayImage(self):
-        self.image = Image.open('./pic/LCD_2inch.jpg')	
+    def displayImage(self, image):
+        self.image = image	
         self.__outputDisplay(); 
 
     def __newImage(self):
@@ -80,6 +80,7 @@ class DisplayHelper():
 
     def __outputDisplay(self):
         try:
+            self.image.save("/media/saroj/SMTEST/python/test.png")
             self.image=self.image.rotate(180)
             self.disp.ShowImage(self.image)
             # self.disp.module_exit()

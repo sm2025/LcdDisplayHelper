@@ -3,10 +3,11 @@ import python_weather
 import asyncio
 from datetime import datetime
 import time
-import sys
+# import sys
 # sys.path.append(".")
 import displayHelper as dh
-
+from PIL import Image
+import os, random
 
 displayHelper = dh.DisplayHelper()
 
@@ -19,7 +20,9 @@ async def getweather():
     await client.close()
     return result
 
-if __name__ == "__main__":
+
+
+def sendWeatherToDisplay(displayHelper):
     now = datetime.now()
     current_hr = now.strftime("%H")
     current_min = now.strftime("%M")
@@ -34,14 +37,36 @@ if __name__ == "__main__":
     
 
     displayObjects = []
-    displayForecast = displayObjects.append(dh.DisplayObject(forecast, "white", 50, (0,0)))
-    displayTime = displayObjects.append(dh.DisplayObject(str(wind), "yellow", 100, (60,20)))
-    displayTime = displayObjects.append(dh.DisplayObject(str(humidity), "yellow", 100, (60,60)))
-    displayTemperature =displayObjects.append(dh.DisplayObject(str(temperature), "white", 150, (0,20)))
+    displayObjects.append(dh.DisplayObject(forecast, "white", 50, (0,0)))
+    displayObjects.append(dh.DisplayObject(str(wind), "yellow", 100, (60,20)))
+    displayObjects.append(dh.DisplayObject(str(humidity), "yellow", 100, (60,60)))
+    displayObjects.append(dh.DisplayObject(str(temperature), "white", 150, (0,20)))
 
     displayHelper.completeDisplay(displayObjects)
-    
-    #time.sleep(5)
-    #displayHelper.displayImage()
+
+
+def sendPictureToDisplay():
+    fileDir = "/media/saroj/SMTEST/Photos/springWalk/"
+    file = random.choice(os.listdir(fileDir)) 
+    img = Image.open(fileDir+file)
+    width, height = img.size
+    # displayDim = (displayHelper.disp.height, displayHelper.disp.width)
+    if (width>height):
+        newWidth = 320
+        newHeight = int(320/width*height)
+    else: 
+        newHeight = 240
+        newWidth = int(240/height*width)
+    newsize = (newWidth, newHeight)
+    img = img.resize(newsize)
+    displayHelper.displayImage(img)
+
+if __name__ == "__main__":
+    for i in range(6):
+        sendWeatherToDisplay(displayHelper)
+        time.sleep(5)  
+        sendPictureToDisplay()
+        time.sleep(5)
+   
     displayHelper.exitDisplay() 
     
