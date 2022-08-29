@@ -46,7 +46,7 @@ def sendWeatherToDisplay(displayHelper):
 
 
 def sendPictureToDisplay():
-    fileDir = "/media/saroj/SMTEST/Photos/springWalk/"
+    fileDir = "/home/saroj/Public/python/lcdProjects/pic/"
     file = random.choice(os.listdir(fileDir)) 
     img = Image.open(fileDir+file)
     width, height = img.size
@@ -60,7 +60,7 @@ def sendPictureToDisplay():
     newsize = (newWidth, newHeight)
     img = img.resize(newsize)
     #print("******"+ str(newsize[0]) + "****" + str(newsize[1]))
-    reducedImagePath = "/media/saroj/SMTEST/python/test2.jpg"
+    reducedImagePath = "/home/saroj/Public/python/lcdProjects/pic/reduced/test2.jpg"
     img.save(reducedImagePath)
     displayHelper.displayImage()
 
